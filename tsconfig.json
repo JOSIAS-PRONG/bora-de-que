@@ -4,6 +4,6 @@
     "strict": true,
     "types": ["react", "node"]
   },
-  "include": ["App.tsx", "index.ts", "src/**/*.ts", "src/**/*.tsx", "tests/**/*.ts"],
+  "include": ["App.tsx", "index.ts", "src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist", ".expo"]
 }
