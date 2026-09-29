@@ -8,11 +8,11 @@ Aplicativo que ajuda a escolher uma atividade para o tempo livre, de acordo com 
 - Sorteio entre as atividades que combinam com as escolhas do usuário.
 - Detalhes com duração, custo estimado, materiais e passo a passo.
 - Favoritos e histórico de atividades realizadas.
-- Filtros, favoritos e histórico salvos no aparelho.
+- Filtros, favoritos e histórico disponíveis enquanto o app estiver aberto. Esses dados são perdidos ao fechar ou recarregar o aplicativo.
 
 ## Tecnologias
 
-React Native, Expo SDK 57, TypeScript, React Navigation, Context API e AsyncStorage.
+React Native, Expo SDK 57, TypeScript, React Navigation e Context API.
 
 ## Como executar
 

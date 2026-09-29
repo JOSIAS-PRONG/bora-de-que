@@ -1,41 +1,27 @@
-import React, { createContext, useEffect, useRef, useState, type PropsWithChildren } from 'react';
+import React, { createContext, useRef, useState, type PropsWithChildren } from 'react';
 import { activityById } from '../data/activities';
-import { emptyState, loadState, saveState } from '../services/storage';
+import { defaultFilters } from '../types';
 import { drawActivity } from '../utils/activities';
-import type { Activity, Filters, SavedState } from '../types';
-type AppContextValue = SavedState & {
-  ready: boolean; error: string | null; dismissError: () => void;
+import type { Activity, Filters, AppState } from '../types';
+type AppContextValue = AppState & {
   setFilters: (filters: Filters) => void; toggleFavorite: (id: string) => void;
   complete: (id: string) => boolean; removeEntry: (id: string) => void;
   draw: (candidates: Activity[]) => Activity | undefined;
 };
 export const AppContext = createContext<AppContextValue | undefined>(undefined);
 export function AppProvider({ children }: PropsWithChildren) {
-  const [state, setState] = useState<SavedState>(emptyState);
-  const [ready, setReady] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [state, setState] = useState<AppState>(() => ({ filters: { ...defaultFilters }, favorites: [], history: [] }));
   const current = useRef(state);
   const lastDraw = useRef<string | undefined>(undefined);
   const lastCompletion = useRef(new Map<string, number>());
   const sequence = useRef(0);
-  useEffect(() => {
-    let active = true;
-    loadState(new Set(activityById.keys())).then(saved => {
-      if (active) { current.current = saved; setState(saved); }
-    }).catch(() => { if (active) setError('Não foi possível recuperar os dados salvos. Você pode continuar usando o aplicativo.'); })
-      .finally(() => { if (active) setReady(true); });
-    return () => { active = false; };
-  }, []);
-  // Persist only user mutations, never the initial/default render or hydration.
-  function update(transform: (previous: SavedState) => SavedState) {
-    if (!ready) return;
+  function update(transform: (previous: AppState) => AppState) {
     const next = transform(current.current);
     current.current = next;
     setState(next);
-    void saveState(next).catch(() => setError('Não foi possível salvar. Esta mudança pode não ser mantida ao reabrir o aplicativo.'));
   }
   function complete(id: string) {
-    if (!ready || !activityById.has(id)) return false;
+    if (!activityById.has(id)) return false;
     const now = Date.now();
     if (now - (lastCompletion.current.get(id) ?? 0) < 2000) return false;
     lastCompletion.current.set(id, now);
@@ -43,7 +29,7 @@ export function AppProvider({ children }: PropsWithChildren) {
     return true;
   }
   const value: AppContextValue = {
-    ...state, ready, error, dismissError: () => setError(null),
+    ...state,
     setFilters: filters => update(s => ({ ...s, filters })),
     toggleFavorite: id => { if (activityById.has(id)) update(s => ({ ...s, favorites: s.favorites.includes(id) ? s.favorites.filter(f => f !== id) : [...s.favorites, id] })); },
     complete, removeEntry: id => update(s => ({ ...s, history: s.history.filter(entry => entry.id !== id) })),

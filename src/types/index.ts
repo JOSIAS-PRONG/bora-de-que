@@ -10,5 +10,5 @@ export type Activity = {
 };
 export type Filters = { time: number | null; budget: number | null; place: Place | 'todos'; company: Company | 'todos' };
 export type HistoryEntry = { id: string; activityId: string; date: string };
-export type SavedState = { filters: Filters; favorites: string[]; history: HistoryEntry[] };
+export type AppState = { filters: Filters; favorites: string[]; history: HistoryEntry[] };
 export const defaultFilters: Filters = { time: 60, budget: 0, place: 'todos', company: 'todos' };
