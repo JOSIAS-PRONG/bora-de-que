@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FlatList, Text, TextInput, View, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ActivityCard } from '../components/ActivityCard';
+import { RecipeSection } from '../components/RecipeSection';
 import { EmptyState, FilterChip, PageHeading, PrimaryButton, ScreenContainer } from '../components/ui';
 import { activities } from '../data/activities';
 import { useApp } from '../hooks/useApp';
@@ -19,6 +20,7 @@ export function SuggestionsScreen({ navigation }: TabProps<'Sugestoes'>) {
     <FlatList data={results} keyExtractor={a => a.id} contentContainerStyle={s.content} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag"
       ListHeaderComponent={<View style={s.section}>
         <PageHeading eyebrow="SEU PRÓXIMO BOM MOMENTO" title="Ideias para agora" subtitle="Encontre algo que combine com você hoje." />
+        <RecipeSection />
         <View style={[s.panel, { backgroundColor: colors.lavender, borderWidth: 0 }]}><Text style={[s.small, { color: colors.primaryDark }]}>{filterSummary(filters)}</Text><PrimaryButton title="Alterar filtros" secondary icon="options-outline" onPress={() => navigation.navigate('Inicio')} /></View>
         <View style={local.search}><Ionicons name="search-outline" size={22} color={colors.muted} /><TextInput accessibilityLabel="Buscar atividade pelo título" placeholder="Que ideia você procura?" placeholderTextColor={colors.muted} value={query} onChangeText={setQuery} style={local.input} returnKeyType="search" autoCorrect={false} /></View>
         <View style={s.wrap}><FilterChip label="Todas" selected={!category} onPress={() => setCategory(undefined)} />{categories.map(c => <FilterChip key={c} label={c} selected={category === c} onPress={() => setCategory(c)} />)}</View>

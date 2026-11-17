@@ -9,6 +9,6 @@ export type Activity = {
   image: ImageSourcePropType; materials: string[]; steps: string[];
 };
 export type Filters = { time: number | null; budget: number | null; place: Place | 'todos'; company: Company | 'todos' };
-export type HistoryEntry = { id: string; activityId: string; date: string };
+export type HistoryEntry = { id: string; activityId: string; date: string; photoUri?: string | null };
 export type AppState = { filters: Filters; favorites: string[]; history: HistoryEntry[] };
 export const defaultFilters: Filters = { time: 60, budget: 0, place: 'todos', company: 'todos' };

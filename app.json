@@ -16,7 +16,17 @@
       "favicon": "./assets/images/icon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-sqlite",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Permita que o Bora de quê? fotografe suas atividades realizadas.",
+          "microphonePermission": false,
+          "photosPermission": false
+        }
+      ],
+      "expo-status-bar"
     ]
   }
 }

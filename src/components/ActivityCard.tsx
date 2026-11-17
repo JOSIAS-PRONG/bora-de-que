@@ -20,6 +20,7 @@ export function ActivityCard({ activity, onOpen }: { activity: Activity; onOpen:
     <View style={card.favorite}><IconButton icon={favorite ? 'heart' : 'heart-outline'} label={`${favorite ? 'Remover dos' : 'Adicionar aos'} favoritos: ${activity.title}`} active={favorite} onPress={() => toggleFavorite(activity.id)} /></View>
   </View>;
 }
+
 const card = StyleSheet.create({
   container: { backgroundColor: colors.paper, borderRadius: radius.md, borderWidth: 1, borderColor: colors.border, marginBottom: 16, overflow: 'hidden' },
   open: { flex: 1 }, image: { width: '100%', height: 160, resizeMode: 'cover' },
